@@ -2,6 +2,7 @@ package com.dh.clinica.service;
 
 import com.dh.clinica.dao.IDao;
 import com.dh.clinica.model.Odontologo;
+import com.dh.clinica.model.Paciente;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,5 +24,12 @@ public class OdontologoService {
     }
 
     public Odontologo buscarPorId(Integer id) { return odontologoIDao.buscarPorId(id);
+    }
+
+    public void modificarodontolgo(Odontologo odontologo){
+        odontologoIDao.modificar(odontologo);
+    }
+    public void eliminarodontolgo(Integer id){
+        odontologoIDao.eliminar(id);
     }
 }
