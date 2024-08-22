@@ -31,7 +31,7 @@ class OdontologoServiceTest {
         Connection connection = null;
         try{
             Class.forName("org.h2.Driver");
-            connection = DriverManager.getConnection("jdbc:h2:./clinicac6;INIT=RUNSCRIPT FROM 'D:/Gonza/Escritorio/BackEnd 1/Backend1_final/clinica/create.sql'", "sa","sa");
+            connection = DriverManager.getConnection("jdbc:h2:./clinicac6;INIT=RUNSCRIPT FROM './clinica/create.sql'", "sa","sa");
         }catch (Exception e){
             logger.error(e.getMessage());
         } finally {

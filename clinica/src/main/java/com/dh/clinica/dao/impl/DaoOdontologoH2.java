@@ -2,9 +2,7 @@ package com.dh.clinica.dao.impl;
 
 import com.dh.clinica.dao.IDao;
 import com.dh.clinica.db.H2Connection;
-import com.dh.clinica.model.Domicilio;
 import com.dh.clinica.model.Odontologo;
-import com.dh.clinica.model.Paciente;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -21,6 +19,10 @@ public class DaoOdontologoH2 implements IDao<Odontologo> {
     private static final String INSERT = "INSERT INTO ODONTOLOGOS VALUES (DEFAULT, ?,?,?)";
     private static final String SELECT_BY_ID = "SELECT * FROM ODONTOLOGOS WHERE id = ?";
     private static final String SELECT_ALL = "SELECT * FROM ODONTOLOGOS";
+    public static final String UPDATE = "UPDATE ODONTOLOGOS SET MATRICULA=?, NOMBRE=?," +
+            "APELLIDO=? WHERE ID=?";
+    public static final String DELETE = "DELETE FROM ODONTOLOGOS WHERE ID =? ";
+    
 
     @Override
     public Odontologo guardar(Odontologo odontologo) {
@@ -140,4 +142,86 @@ public class DaoOdontologoH2 implements IDao<Odontologo> {
         return odontologos;
     }
 
+    @Override
+    public void modificar(Odontologo odontologo) {
+        Connection connection = null;
+        try{
+            connection = H2Connection.getConnection();
+            connection.setAutoCommit(false);
+            PreparedStatement prst = connection.prepareStatement(UPDATE);
+            prst.setInt(1, odontologo.getMatricula());
+            prst.setString(2, odontologo.getNombre());
+            prst.setString(3, odontologo.getApellido());
+            prst.setInt(4, odontologo.getId());
+            prst.executeUpdate();
+            connection.commit();
+
+            logger.info("odontologo modificado "+  odontologo);
+
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                logger.error(ex.getMessage());
+                e.printStackTrace();
+            } finally {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException ex) {
+                    logger.error(ex.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void eliminar(Integer id) {
+        Connection connection = null;
+        Odontologo odontologo = buscarPorId(id);
+        try{
+            connection = H2Connection.getConnection();
+            connection.setAutoCommit(false);
+            if (odontologo != null) {
+                PreparedStatement prst = connection.prepareStatement(DELETE);
+                prst.setInt(1, id);
+                prst.executeUpdate();
+                connection.commit();
+            }
+            logger.info("odontologo con id "+id+ " eliminado " );
+
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                logger.error(ex.getMessage());
+                e.printStackTrace();
+            } finally {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException ex) {
+                    logger.error(ex.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
 }
