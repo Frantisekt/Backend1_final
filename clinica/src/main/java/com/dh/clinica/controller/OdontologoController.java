@@ -55,7 +55,7 @@ public class OdontologoController {
         Odontologo odontologoEncontrado = odontologoService.buscarPorId(id);
         if (odontologoEncontrado  != null) {
             odontologoService.eliminarodontolgo(id);
-            String jsonResponse = "{\"mensaje\": \"El paciente ha sido eliminado\"}";
+            String jsonResponse = "{\"mensaje\": \"El odontologo ha sido eliminado\"}";
             return ResponseEntity.ok(jsonResponse);
         }else {
             return ResponseEntity.notFound().build();
