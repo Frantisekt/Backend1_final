@@ -56,6 +56,4 @@ public class OdontologoService implements IOdontologoService {
     public Optional<Odontologo> buscarLikeMatricula(String matricula) {
         return odontologoRepository.findByMatriculaLike(matricula);
     }
-
-
 }

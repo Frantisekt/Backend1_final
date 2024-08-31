@@ -14,5 +14,6 @@ public interface IOdontologoRepository extends JpaRepository<Odontologo, Integer
 
     @Query("Select p from Odontologo p where p.nombre LIKE %:parteNombre% ")
     List<Odontologo> findByNombreLike(String parteNombre);
+    Optional<Odontologo> findByMatriculaLike(String parteMatricula);
 
 }
