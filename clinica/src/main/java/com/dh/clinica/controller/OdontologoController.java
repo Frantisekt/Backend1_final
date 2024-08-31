@@ -74,5 +74,14 @@ public class OdontologoController {
     public ResponseEntity<List<Odontologo>> buscarLikeNombre(@PathVariable String nombre){
         return ResponseEntity.ok(odontologoService.buscarLikeNombre(nombre));
     }
+    @GetMapping("/buscarmatricula/{matricula}")
+    public ResponseEntity<Optional<Odontologo>> buscarLikeMatricula(@PathVariable String matricula){
+        Optional<Odontologo> odontologoEncontrado = odontologoService.buscarLikeMatricula(matricula);
+        if(odontologoEncontrado.isPresent()){
+            return ResponseEntity.ok(odontologoService.buscarLikeMatricula(matricula));
+        } else {
+            return ResponseEntity.status(HttpStatusCode.valueOf(404)).build();
+        }
+    }
 
 }
