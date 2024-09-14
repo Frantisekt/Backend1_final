@@ -8,10 +8,13 @@ import com.dh.clinica.dto.response.TurnoResponseDto;
 import com.dh.clinica.entity.Odontologo;
 import com.dh.clinica.entity.Paciente;
 import com.dh.clinica.entity.Turno;
+import com.dh.clinica.exception.ResourceNotFoundException;
 import com.dh.clinica.repository.ITurnoRepository;
 import com.dh.clinica.service.ITurnoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,6 +24,7 @@ import java.util.Optional;
 
 @Service
 public class TurnoService implements ITurnoService {
+    private final Logger logger = LoggerFactory.getLogger(TurnoService.class);
     private ITurnoRepository turnoRepository;
     private PacienteService pacienteService;
     private OdontologoService odontologService;
@@ -128,7 +132,14 @@ public class TurnoService implements ITurnoService {
 
     @Override
     public List<Turno> buscarTurnoOdontologo(String matriculaOdontologo){
-        return turnoRepository.buscarTurnoPorMatriculaOdontologo(matriculaOdontologo);
+        List<Turno> turnosEncontrados = turnoRepository.buscarTurnoPorMatriculaOdontologo(matriculaOdontologo);
+        if (turnosEncontrados.isEmpty()) {
+            logger.info("No se encontraron turnos para este odontologo");
+            throw new ResourceNotFoundException("No se encontraron turnos para este odontologo");
+        }else {
+            logger.info("turnos encontrados: " + turnosEncontrados.size());
+            return turnosEncontrados;
+        }
     }
 
 }
