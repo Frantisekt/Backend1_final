@@ -42,26 +42,16 @@ public class OdontologoController {
 
     @PutMapping("/modificar")
     public ResponseEntity<?> modificarOdontologo(@RequestBody Odontologo odontologo){
-        Optional<Odontologo> odontologoEncontrado = odontologoService.buscarPorId(odontologo.getId());
-        if (odontologoEncontrado.isPresent()) {
-            odontologoService.modificarodontolgo(odontologoEncontrado.get());
-            String jsonResponse = "{\"mensaje\": \"El odontologo ha sido modificado\"}";
-            return ResponseEntity.ok(jsonResponse);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        odontologoService.modificarodontolgo(odontologo);
+        String jsonResponse = "{\"mensaje\": \"El odontologo ha sido modificado\"}";
+        return ResponseEntity.ok(jsonResponse);
     }
 
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> eliminarOdontologo(@PathVariable Integer id){
-        Optional<Odontologo> odontologoEncontrado = odontologoService.buscarPorId(id);
-        if (odontologoEncontrado.isPresent()) {
-            odontologoService.eliminarodontolgo(id);
-            String jsonResponse = "{\"mensaje\": \"El odontologo ha sido eliminado\"}";
-            return ResponseEntity.ok(jsonResponse);
-        }else {
-            return ResponseEntity.notFound().build();
-        }
+        odontologoService.eliminarodontolgo(id);
+        String jsonResponse = "{\"mensaje\": \"El odontologo ha sido eliminado\"}";
+        return ResponseEntity.ok(jsonResponse);
     }
 
     @GetMapping("/buscarApellidoNombre")
