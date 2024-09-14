@@ -1,60 +1,58 @@
 package com.dh.clinica;
 
 
-//import com.dh.clinica.entity.Odontologo;
-//import org.junit.jupiter.api.BeforeAll;
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Test;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import com.dh.clinica.service.OdontologoService;
-//import java.sql.Connection;
-//import java.sql.DriverManager;
-//import java.sql.SQLException;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import static org.junit.jupiter.api.Assertions.assertNotNull;
-//import static org.junit.jupiter.api.Assertions.assertTrue;
-//
-//class OdontologoServiceTest {
-//
-//     static Logger logger = LoggerFactory.getLogger(OdontologoServiceTest.class);
-//
-//    OdontologoService odontologoService = new OdontologoService(new DaoOdontologoH2());
-//
-//    @BeforeAll
-//    static void createTablas(){
-//        Connection connection = null;
-//        try{
-//            Class.forName("org.h2.Driver");
-//            connection = DriverManager.getConnection("jdbc:h2:./clinicac6;INIT=RUNSCRIPT FROM './clinica/create.sql'", "sa","sa");
-//        }catch (Exception e){
-//            logger.error(e.getMessage());
-//        } finally {
-//            try {
-//                connection.close();
-//            } catch (SQLException ex) {
-//                logger.error(ex.getMessage());
-//            }
-//        }
-//    }
-//
-//    @Test
-//    @DisplayName("Testear que un Odontologo se guarde correctamente en la base de datos.")
-//    void caso1() {
-//        //dado
-//        Odontologo odontologo = new Odontologo(25338, "BOYD", "CROWDER");
-//        Odontologo odontologoDesdeLaBD = odontologoService.guardarOdontologo(odontologo);
-//        assertNotNull(odontologoDesdeLaBD.getId());
-//    }
-//
-//    @Test
-//    @DisplayName("Testear que se muestren todos los odontologos de la bd.")
-//    void caso2() {
-//        //dado
-//        List<Odontologo> Odontologos = new ArrayList<>();
-//        Odontologos = odontologoService.buscarTodos();
-//        assertTrue(!Odontologos.isEmpty());
-//    }
-//}
+import com.dh.clinica.entity.Domicilio;
+import com.dh.clinica.entity.Odontologo;
+import com.dh.clinica.service.impl.OdontologoService;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDate;
+
+@SpringBootTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
+@Transactional
+class OdontologoServiceTest {
+    @Autowired
+    OdontologoService odontologoService;
+
+    Odontologo odontologo;
+    Odontologo odontologoDesdeDb;
+
+    @BeforeEach
+    void crearOdontologo(){
+        odontologo = new Odontologo();
+        odontologo.setMatricula("1234567");
+        odontologo.setApellido("Romero");
+        odontologo.setNombre("Luciana");
+        odontologoDesdeDb = odontologoService.guardarOdontologo(odontologo);
+    }
+
+    @Test
+    @DisplayName("Testear que un odontologo se guarde en la base de datos")
+    void caso1(){
+        //dado
+        // cuando
+        // entonces
+        assertNotNull(odontologoDesdeDb.getId());
+    }
+
+    @Test
+    @DisplayName("Testear que un odontologo pueda ser obtenido cuando se envia el id")
+    void caso2(){
+        //dado
+        Integer id = odontologoDesdeDb.getId();
+        // cuando
+        Odontologo odontologoEncontrado = odontologoService.buscarPorId(id).get();
+        // entonces
+        assertEquals(id, odontologoEncontrado.getId());
+    }
+
+}

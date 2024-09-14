@@ -22,17 +22,34 @@ public class OdontologoService implements IOdontologoService {
 
     @Override
     public Odontologo guardarOdontologo(Odontologo odontologo) {
+        logger.info("Odontologo guardado correctamente");
         return odontologoRepository.save(odontologo);
     }
 
     @Override
     public List<Odontologo> buscarTodos() {
-        return odontologoRepository.findAll();
+        List<Odontologo> odontologos = odontologoRepository.findAll();
+        if(odontologos.isEmpty()){
+            logger.info("No se encontraron odontologos.");
+            throw new ResourceNotFoundException("No se encontraron odontologos.");
+        }else{
+            logger.info("Numero de odontologos encontrados: " + odontologos.size());
+            return odontologos;
+        }
     }
 
     @Override
     public Optional<Odontologo> buscarPorId(Integer id) {
-        return odontologoRepository.findById(id);
+        Optional<Odontologo> odontologoEncontrado = odontologoRepository.findById(id);
+        if(odontologoEncontrado.isPresent()){
+            logger.info("Odontologo encontrado: " + odontologoEncontrado);
+            return odontologoEncontrado;
+        } else {
+            // ResponseEntity.status(HttpStatus.NOT_FOUND).body("odontologo no encontrado");
+            //ResponseEntity.notFound().build();
+            logger.info("No se encontro el odontologo: " + id + " Not found.");
+            throw new ResourceNotFoundException("No se encontro el odontologo: " + id + " Not found.");
+        }
     }
 
     @Override
@@ -49,12 +66,26 @@ public class OdontologoService implements IOdontologoService {
 
     @Override
     public void eliminarodontolgo(Integer id) {
-        odontologoRepository.deleteById(id);
+        Optional<Odontologo> odontologoEncontrado = odontologoRepository.findById(id);
+        if(odontologoEncontrado.isPresent()) {
+            logger.info("Odontologo eliminado correctamente");
+            odontologoRepository.deleteById(id);
+        }else{
+            logger.info("El odontologo no fue encontrado. Id: " + id + " Not found");
+            throw new ResourceNotFoundException("El odontologo no fue encontrado. Id: " + id + " Not found");
+        }
     }
 
     @Override
     public List<Odontologo> buscarPorApellidoyNombre(String apellido, String nombre) {
-        return odontologoRepository.findByApellidoAndNombre(apellido, nombre);
+        List<Odontologo> odontologos = odontologoRepository.findByApellidoAndNombre(apellido, nombre);
+        if(odontologos.isEmpty()){
+            logger.info("No se encontraron odontologos.");
+            throw new ResourceNotFoundException("No se encontraron odontologos.");
+        }else{
+            logger.info("Numero de odontologos encontrados: " + odontologos.size());
+            return odontologos;
+        }
     }
 
     @Override
@@ -71,6 +102,13 @@ public class OdontologoService implements IOdontologoService {
 
     @Override
     public Optional<Odontologo> buscarLikeMatricula(String matricula) {
-        return odontologoRepository.findByMatriculaLike(matricula);
+        Optional<Odontologo> odontologoEncontrado = odontologoRepository.findByMatriculaLike(matricula);
+        if(odontologoEncontrado.isPresent()) {
+            logger.info("Odontologo encontrado: " + odontologoEncontrado );
+            return odontologoEncontrado;
+        }else{
+            logger.info("El odontologo no fue encontrado. Matricula: " + matricula   + " Not found");
+            throw new ResourceNotFoundException("El odontologo no fue encontrado. Matricula: " + matricula   + " Not found");
+        }
     }
 }

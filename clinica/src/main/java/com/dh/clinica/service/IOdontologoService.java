@@ -18,6 +18,7 @@ public interface IOdontologoService {
 
    void eliminarodontolgo(Integer id);
 
+    @Query("SELECT p FROM Paciente p WHERE p.apellido LIKE %:apellido% AND p.nombre LIKE %:nombre%")
     List<Odontologo> buscarPorApellidoyNombre(String apellido, String nombre);
 
     @Query("Select p from Odontologo p where p.nombre LIKE %:nombre%")
