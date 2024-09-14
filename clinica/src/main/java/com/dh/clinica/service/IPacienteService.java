@@ -16,9 +16,12 @@ public interface IPacienteService {
     void modificarPaciente(Paciente paciente);
     void eliminarPaciente(Integer id);
 
+    @Query("SELECT p FROM Paciente p WHERE p.apellido LIKE %:apellido% AND p.nombre LIKE %:nombre%")
     List<Paciente> buscarPorApellidoyNombre(String apellido, String nombre);
     @Query("Select p from Paciente p where p.nombre LIKE %:nombre%")
     List<Paciente> buscarLikeNombre(String nombre);
+
+    Optional<Paciente> buscarLikeDni(String dni);
 
     // select * from pacientes where nombre like CONCAT('%',variable,'%');
 }

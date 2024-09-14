@@ -28,11 +28,7 @@ public class OdontologoController {
     @GetMapping("/buscar/{id}")
     public ResponseEntity<Odontologo> buscarPorId(@PathVariable Integer id){
         Optional<Odontologo> odontologo = odontologoService.buscarPorId(id);
-        if(odontologo.isPresent()){
-            return ResponseEntity.ok(odontologo.get());
-        } else {
-            return ResponseEntity.status(HttpStatusCode.valueOf(404)).build();
-        }
+        return ResponseEntity.ok(odontologo.get());
     }
 
     @GetMapping("/buscartodos")
@@ -65,13 +61,9 @@ public class OdontologoController {
         return ResponseEntity.ok(odontologoService.buscarLikeNombre(nombre));
     }
     @GetMapping("/buscarmatricula/{matricula}")
-    public ResponseEntity<Optional<Odontologo>> buscarLikeMatricula(@PathVariable String matricula){
+    public ResponseEntity<Optional<Odontologo>> buscarLikeMatricula(@PathVariable String matricula) {
         Optional<Odontologo> odontologoEncontrado = odontologoService.buscarLikeMatricula(matricula);
-        if(odontologoEncontrado.isPresent()){
-            return ResponseEntity.ok(odontologoService.buscarLikeMatricula(matricula));
-        } else {
-            return ResponseEntity.status(HttpStatusCode.valueOf(404)).build();
-        }
+        return ResponseEntity.ok(odontologoService.buscarLikeMatricula(matricula));
     }
 
 }
