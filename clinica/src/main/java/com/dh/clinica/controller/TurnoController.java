@@ -30,7 +30,6 @@ public class TurnoController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El paciente o el odontologo no fueron encontrados");
         }
-
     }
 
     @GetMapping("/buscartodos")
@@ -52,6 +51,12 @@ public class TurnoController {
     @GetMapping("/buscarpormatricula/{matricula}")
     public ResponseEntity<List<Turno>> buscarTurnoApellidoOdontologo(@PathVariable String matricula){
         return ResponseEntity.ok(turnoService.buscarTurnoOdontologo(matricula));
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public  ResponseEntity<?> eliminarTurno(@PathVariable Integer id){
+        turnoService.eliminarTurno(id);
+        return ResponseEntity.ok("{\"mensaje\": \"El turno fue eliminadp\"}");
     }
 
 
