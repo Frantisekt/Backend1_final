@@ -44,4 +44,6 @@ public class VistaController {
         model.addAttribute("apellido", odontologo.getApellido());
         return "odontologo";
     }
+
+
 }
