@@ -49,4 +49,8 @@ public class AuthenticationService {
                 .token(token)
                 .build();
     }
+
+    public AuthenticationResponse buscarusuario(AuthenticationRequest request) {
+        return null;
+    }
 }

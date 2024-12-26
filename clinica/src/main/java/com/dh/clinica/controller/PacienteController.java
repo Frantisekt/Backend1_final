@@ -3,6 +3,7 @@ package com.dh.clinica.controller;
 import com.dh.clinica.entity.Paciente;
 import com.dh.clinica.service.impl.PacienteService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,8 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 @RequestMapping("/paciente")
+@CrossOrigin(origins = "http://localhost:5173")
+@Slf4j
 public class PacienteController {
     private PacienteService pacienteService;
 

@@ -34,6 +34,8 @@ public class Paciente {
     @Size(min=7, max=15)
     private String dni;
     @NotNull
+    private String email;
+    @NotNull
     private LocalDate fechaIngreso;
 
     @Valid
@@ -53,6 +55,7 @@ public class Paciente {
                 ", apellido='" + apellido + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", dni='" + dni + '\'' +
+                ", email'" + email + '\'' +
                 ", fechaIngreso=" + fechaIngreso +
                 ", domicilio=" + domicilio +
                 '}';
