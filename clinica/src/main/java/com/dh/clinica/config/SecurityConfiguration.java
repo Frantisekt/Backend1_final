@@ -44,14 +44,14 @@ public class SecurityConfiguration {
                             auth.requestMatchers(HttpMethod.POST, "/odontologo/**").hasAuthority("ADMIN");
                             auth.requestMatchers(HttpMethod.PUT, "/odontologo/**").hasAuthority("ADMIN");
                             auth.requestMatchers(HttpMethod.DELETE, "/odontologo/**").hasAuthority("ADMIN");
-                            auth.requestMatchers("/paciente/**").hasAuthority("ADMIN");
+                            auth.requestMatchers("/paciente/**").hasAnyAuthority("ADMIN", "USER");
                             // endpoints que requieren autenticacion (al menos el rol de usuario)
-                            auth.requestMatchers("/turno/**").authenticated();
+                            auth.requestMatchers("/turno/**").hasAnyAuthority("ADMIN", "USER");
                             auth.anyRequest().authenticated();
 
                         })
-                .csrf(config -> config.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(authenticationProvider)
@@ -60,10 +60,11 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // Puerto de Vite
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

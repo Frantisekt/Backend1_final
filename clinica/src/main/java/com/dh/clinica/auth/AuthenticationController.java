@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -15,8 +14,8 @@ public class AuthenticationController {
     ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
         return ResponseEntity
                 .ok()
-                .header("Access-Control-Allow-Origin", "http://localhost:5173")
-                .header("Access-Control-Allow-Credentials", "true")
+                //.header("Access-Control-Allow-Origin", "http://localhost:5173")
+                //.header("Access-Control-Allow-Credentials", "true")
                 .body(authenticationService.register(request));
     }
 
