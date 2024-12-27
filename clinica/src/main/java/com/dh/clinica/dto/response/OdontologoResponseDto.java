@@ -14,4 +14,5 @@ public class OdontologoResponseDto {
     private String matricula;
     private String nombre;
     private String apellido;
+    private String email;
 }

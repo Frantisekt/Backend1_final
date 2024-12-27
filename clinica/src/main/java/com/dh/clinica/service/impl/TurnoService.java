@@ -103,12 +103,14 @@ public class TurnoService implements ITurnoService {
     private TurnoResponseDto convertirTurnoAResponse(Turno turnoDesdeDb){
         OdontologoResponseDto odontologoResponseDto = new OdontologoResponseDto(
                 turnoDesdeDb.getOdontologo().getId(), turnoDesdeDb.getOdontologo().getMatricula(),
-                turnoDesdeDb.getOdontologo().getNombre(), turnoDesdeDb.getOdontologo().getApellido()
+                turnoDesdeDb.getOdontologo().getNombre(), turnoDesdeDb.getOdontologo().getApellido(),
+                turnoDesdeDb.getOdontologo().getNombre()
         );
 
         PacienteResponseDto pacienteResponseDto = new PacienteResponseDto(
                 turnoDesdeDb.getPaciente().getId(), turnoDesdeDb.getPaciente().getNombre(),
-                turnoDesdeDb.getPaciente().getApellido(), turnoDesdeDb.getPaciente().getDni()
+                turnoDesdeDb.getPaciente().getApellido(), turnoDesdeDb.getPaciente().getDni(),
+                turnoDesdeDb.getPaciente().getEmail()
         );
 
         TurnoResponseDto turnoARetornar = new TurnoResponseDto(

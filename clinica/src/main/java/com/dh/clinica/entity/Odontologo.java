@@ -29,6 +29,8 @@ public class Odontologo {
     private String nombre;
     @NotBlank
     private String apellido;
+    @NotBlank
+    private String email;
 
     @OneToMany(mappedBy = "odontologo")
     //@JsonIgnore
@@ -42,6 +44,7 @@ public class Odontologo {
                 ", matricula=" + matricula +
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

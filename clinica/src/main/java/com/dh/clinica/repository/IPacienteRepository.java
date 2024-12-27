@@ -13,8 +13,9 @@ public interface IPacienteRepository extends JpaRepository<Paciente, Integer> {
     @Query("SELECT p FROM Paciente p WHERE p.apellido LIKE %:apellido% AND p.nombre LIKE %:nombre%")
     List<Paciente> findByApellidoAndNombre(String apellido, String nombre);
 
-    @Query("Select p from Paciente p where p.nombre LIKE %:parteNombre% ")
-    List<Paciente> findByNombreLike(String parteNombre);
+
+    List<Paciente> findByNombreContainingIgnoreCase(String parteNombre);
+
 
     Optional<Paciente> findByDniLike(String dni);
 

@@ -92,7 +92,7 @@ public class PacienteService implements IPacienteService {
 
     @Override
     public List<Paciente> buscarLikeNombre(String nombre) {
-        List<Paciente> pacientes = pacienteRepository.findByNombreLike(nombre);
+        List<Paciente> pacientes = pacienteRepository.findByNombreContainingIgnoreCase(nombre);
         if(pacientes.isEmpty()){
             logger.info("No se encontraron pacientes que coincidan con: '" +nombre + "'");
             throw new ResourceNotFoundException("No se encontraron pacientes.");

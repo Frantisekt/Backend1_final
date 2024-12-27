@@ -14,4 +14,5 @@ public class PacienteResponseDto {
     private String nombre;
     private String apellido;
     private String dni;
+    private String email;
 }
