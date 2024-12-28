@@ -14,4 +14,5 @@ public class TurnoResponseDto {
     private PacienteResponseDto pacienteResponseDto;
     private OdontologoResponseDto odontologoResponseDto;
     private String fecha;
+    private String hora;
 }

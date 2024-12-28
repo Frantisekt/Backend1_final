@@ -1,7 +1,7 @@
 package com.dh.clinica.entity;
 
 import java.time.LocalDate;
-
+import java.time.LocalTime;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,6 +28,8 @@ public class Turno {
     @JsonBackReference(value = "odontologo-turno")
     private Odontologo odontologo;
     private LocalDate fecha;
+    private LocalTime hora; // Nuevo campo para la hora
+
     @Override
     public String toString() {
         return "Turno{" +
@@ -35,6 +37,7 @@ public class Turno {
                 ", paciente=" + paciente +
                 ", odontologo=" + odontologo +
                 ", fecha=" + fecha +
+                ", hora=" + hora +
                 '}';
     }
 }

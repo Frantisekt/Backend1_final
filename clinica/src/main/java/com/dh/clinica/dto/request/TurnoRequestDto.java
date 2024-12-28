@@ -13,4 +13,5 @@ public class TurnoRequestDto {
     private Integer paciente_id;
     private Integer odontologo_id;
     private String fecha;
+    private String hora;
 }

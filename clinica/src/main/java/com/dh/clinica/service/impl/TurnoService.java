@@ -1,5 +1,5 @@
 package com.dh.clinica.service.impl;
-
+import com.dh.clinica.exception.TurnoConflictException;
 import com.dh.clinica.dto.request.TurnoModificarDto;
 import com.dh.clinica.dto.request.TurnoRequestDto;
 import com.dh.clinica.dto.response.OdontologoResponseDto;
@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,17 +46,24 @@ public class TurnoService implements ITurnoService {
         Turno turnoDesdeDb = null;
         TurnoResponseDto turnoARetornar = null;
         if (paciente.isPresent() && odontologo.isPresent()) {
-            // mapear el turnoRequestDto a turno
+            LocalDate fecha = LocalDate.parse(turnoRequestDto.getFecha());
+            LocalTime hora = LocalTime.parse(turnoRequestDto.getHora());
+
+            // Verificar si ya existe un turno para esa fecha y hora
+            Optional<Turno> turnoConflictivo = turnoRepository.findConflictingTurno(
+                    odontologo.get().getId(), fecha, hora
+            );
+
+            if (turnoConflictivo.isPresent()) {
+                throw new TurnoConflictException("Ya existe un turno para este odontólogo en la fecha y hora especificadas.");
+            }
+            
             turno.setPaciente(paciente.get());
             turno.setOdontologo(odontologo.get());
-            turno.setFecha(LocalDate.parse(turnoRequestDto.getFecha()));
-            // voy a persistir el turno
+            turno.setFecha(fecha);
+            turno.setHora(hora);
+            
             turnoDesdeDb = turnoRepository.save(turno);
-
-            // mapear el turnoDesdeDb a turnoResponseDto
-            // turno mapeado a mano
-            //turnoARetornar = convertirTurnoAResponse(turnoDesdeDb);
-            // turno mapeado con modelmapper
             turnoARetornar = mapearATurnoResponse(turnoDesdeDb);
         }
         return turnoARetornar;
@@ -84,15 +92,20 @@ public class TurnoService implements ITurnoService {
 
     @Override
     public void modificarTurno(TurnoModificarDto turnoModificarDto) {
-        Optional<Paciente> paciente = pacienteService.buscarPorId(turnoModificarDto.getPaciente_id());
-        Optional<Odontologo> odontologo = odontologService.buscarPorId(turnoModificarDto.getOdontologo_id());
-        Turno turno = null;
-        if (paciente.isPresent() && odontologo.isPresent()) {
-            turno = new Turno(turnoModificarDto.getId(), paciente.get(), odontologo.get(),
-                    LocalDate.parse(turnoModificarDto.getFecha()) );
-            // voy a persistir el turno
-            turnoRepository.save(turno);
-        }
+        Turno turnoExistente = turnoRepository.findById(turnoModificarDto.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Turno no encontrado"));
+
+        Paciente paciente = pacienteService.buscarPorId(turnoModificarDto.getPaciente_id())
+                .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado"));
+        Odontologo odontologo = odontologService.buscarPorId(turnoModificarDto.getOdontologo_id())
+                .orElseThrow(() -> new ResourceNotFoundException("Odontólogo no encontrado"));
+
+        turnoExistente.setPaciente(paciente);
+        turnoExistente.setOdontologo(odontologo);
+        turnoExistente.setFecha(LocalDate.parse(turnoModificarDto.getFecha()));
+        turnoExistente.setHora(LocalTime.parse(turnoModificarDto.getHora()));
+
+        turnoRepository.save(turnoExistente);
     }
 
     @Override
@@ -114,8 +127,11 @@ public class TurnoService implements ITurnoService {
         );
 
         TurnoResponseDto turnoARetornar = new TurnoResponseDto(
-                turnoDesdeDb.getId(), pacienteResponseDto, odontologoResponseDto,
-                turnoDesdeDb.getFecha().toString()
+                turnoDesdeDb.getId(), 
+                pacienteResponseDto, 
+                odontologoResponseDto,
+                turnoDesdeDb.getFecha().toString(),
+                turnoDesdeDb.getHora().toString()
         );
         return turnoARetornar;
     }
