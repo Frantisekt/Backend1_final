@@ -2,18 +2,25 @@ package com.dh.clinica.config;
 
 import com.dh.clinica.entity.Usuario;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.crypto.SecretKey;
+import java.security.SignatureException;
 import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
+//import java.util.logging.Logger;
 
 @Service
 public class JwtService {
     private static final SecretKey key = Jwts.SIG.HS256.key().build();
+    private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
 
     public String generateToken(UserDetails userDetails){
         Usuario usuario = (Usuario) userDetails;

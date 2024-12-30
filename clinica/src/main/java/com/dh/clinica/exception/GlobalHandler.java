@@ -1,5 +1,6 @@
 package com.dh.clinica.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import io.jsonwebtoken.security.SignatureException;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -49,8 +51,18 @@ public class GlobalHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> manejarTodasLasExcepciones(Exception e){
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-    }
+ //  @ExceptionHandler(Exception.class)
+ //  public ResponseEntity<String> manejarTodasLasExcepciones(Exception e){
+ //      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+ //  }
+
+ //  @ExceptionHandler(ExpiredJwtException.class)
+ //  public ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException ex) {
+ //      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("El token ha expirado.");
+ //  }
+
+ //  @ExceptionHandler(SignatureException.class)
+ //  public ResponseEntity<String> handleSignatureException(SignatureException ex) {
+ //      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("La firma del token no es válida.");
+ //  }
 }
