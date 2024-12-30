@@ -1,6 +1,7 @@
 package com.dh.clinica.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,9 @@ public class Domicilio {
     private Integer id;
     private String calle;
     private int numero;
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El valor debe contener solo letras y espacios")
     private String localidad;
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El valor debe contener solo letras y espacios")
     private String provincia;
 
     @Override

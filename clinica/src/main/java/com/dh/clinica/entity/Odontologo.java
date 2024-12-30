@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name ="odontologos")
-
 public class Odontologo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +26,17 @@ public class Odontologo {
     @Size(min=5, max=15)
     private String matricula;
     @NotBlank
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El valor debe contener solo letras y espacios")
     private String nombre;
     @NotBlank
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El valor debe contener solo letras y espacios")
     private String apellido;
     @NotBlank
     private String email;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Especialidad especialidad;
+
 
     @OneToMany(mappedBy = "odontologo")
     //@JsonIgnore
@@ -45,6 +51,7 @@ public class Odontologo {
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", email='" + email + '\'' +
+                ", especialidad" + especialidad + '\'' +
                 '}';
     }
 }

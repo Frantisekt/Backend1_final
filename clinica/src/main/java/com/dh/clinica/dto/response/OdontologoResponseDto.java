@@ -1,5 +1,6 @@
 package com.dh.clinica.dto.response;
 
+import com.dh.clinica.entity.Especialidad;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,5 @@ public class OdontologoResponseDto {
     private String nombre;
     private String apellido;
     private String email;
+    private String especialidad;
 }

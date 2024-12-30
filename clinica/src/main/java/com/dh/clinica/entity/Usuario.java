@@ -2,6 +2,7 @@ package com.dh.clinica.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import jakarta.validation.constraints.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,11 +21,12 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El nombre debe contener solo letras.")
     private String nombre;
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El apellido debe contener solo letras.")
     private String apellido;
     private String email;
     private String password;
-
     @Enumerated(EnumType.STRING)
     private Role rol;
 

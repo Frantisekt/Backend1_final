@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,13 +24,16 @@ public class Paciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotBlank
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El apellido debe contener solo letras.")
     private String apellido;
     @NotBlank
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "El nombre debe contener solo letras.")
     private String nombre;
     @NotBlank
     @Size(min=7, max=15)
     private String dni;
     @NotNull
+    @Email(message = "Email must be a valid email")
     private String email;
     @NotNull
     private LocalDate fechaIngreso;
