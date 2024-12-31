@@ -1,5 +1,6 @@
 package com.dh.clinica.config;
 
+import com.dh.clinica.auth.TokenBlackList;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +21,8 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final TokenBlackList tokenBlackList;
+
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -35,8 +38,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-
         token = authHeader.substring(7);
+        
+        if (tokenBlackList.isBlacklisted(token)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         userEmail = jwtService.extractUsername(token);
         if(userEmail!= null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);

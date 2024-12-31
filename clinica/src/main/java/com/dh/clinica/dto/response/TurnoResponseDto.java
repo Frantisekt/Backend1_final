@@ -15,4 +15,6 @@ public class TurnoResponseDto {
     private OdontologoResponseDto odontologoResponseDto;
     private String fecha;
     private String hora;
+    private String nota; // Nueva propiedad
+    private Boolean necesitaAcompanante; // Nueva propiedad
 }

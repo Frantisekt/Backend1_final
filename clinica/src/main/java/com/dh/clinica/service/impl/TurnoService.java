@@ -62,6 +62,8 @@ public class TurnoService implements ITurnoService {
             turno.setOdontologo(odontologo.get());
             turno.setFecha(fecha);
             turno.setHora(hora);
+            turno.setNota(turnoRequestDto.getNota());
+            turno.setNecesitaAcompanante(turnoRequestDto.getNecesitaAcompanante());
             
             turnoDesdeDb = turnoRepository.save(turno);
             turnoARetornar = mapearATurnoResponse(turnoDesdeDb);
@@ -104,7 +106,8 @@ public class TurnoService implements ITurnoService {
         turnoExistente.setOdontologo(odontologo);
         turnoExistente.setFecha(LocalDate.parse(turnoModificarDto.getFecha()));
         turnoExistente.setHora(LocalTime.parse(turnoModificarDto.getHora()));
-
+        turnoExistente.setNota(turnoModificarDto.getNota());
+    turnoExistente.setNecesitaAcompanante(turnoModificarDto.getNecesitaAcompanante());
         turnoRepository.save(turnoExistente);
     }
 
@@ -131,7 +134,9 @@ public class TurnoService implements ITurnoService {
                 pacienteResponseDto, 
                 odontologoResponseDto,
                 turnoDesdeDb.getFecha().toString(),
-                turnoDesdeDb.getHora().toString()
+                turnoDesdeDb.getHora().toString(),
+                turnoDesdeDb.getNota(),
+                turnoDesdeDb.getNecesitaAcompanante()
         );
         return turnoARetornar;
     }

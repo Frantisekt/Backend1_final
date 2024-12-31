@@ -14,4 +14,6 @@ public class TurnoRequestDto {
     private Integer odontologo_id;
     private String fecha;
     private String hora;
+    private String nota; // Nueva propiedad
+    private Boolean necesitaAcompanante; // Nueva propiedad
 }

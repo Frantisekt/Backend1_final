@@ -4,6 +4,7 @@ import com.dh.clinica.config.JwtService;
 import com.dh.clinica.entity.Role;
 import com.dh.clinica.entity.Usuario;
 import com.dh.clinica.repository.IUsuarioRepository;
+import com.dh.clinica.auth.TokenBlackList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +18,7 @@ public class AuthenticationService {
     private final IUsuarioRepository usuarioRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final TokenBlackList tokenBlackList;
 
     public AuthenticationResponse register (RegisterRequest request){
         Usuario usuario = Usuario.builder()
@@ -52,5 +54,9 @@ public class AuthenticationService {
 
     public AuthenticationResponse buscarusuario(AuthenticationRequest request) {
         return null;
+    }
+
+    public void logout(String token) {
+        tokenBlackList.addToBlacklist(token);
     }
 }

@@ -33,7 +33,8 @@ public class SecurityConfiguration {
 
                         auth -> {
                             //endpoints que no requieren autenticacion
-                            auth.requestMatchers("/api/auth/**").permitAll();
+                            auth.requestMatchers("/api/auth/register", "/api/auth/login").permitAll();
+                            auth.requestMatchers("/api/auth/logout").authenticated();
                             auth.requestMatchers("/h2-console/**").permitAll();
                             auth.requestMatchers(HttpMethod.GET, "/odontologo/**").permitAll();
                             // endpoints de swagger

@@ -30,6 +30,12 @@ public class Turno {
     private LocalDate fecha;
     private LocalTime hora; // Nuevo campo para la hora
 
+    @Column(length = 500)
+    private String nota; // Campo para almacenar notas adicionales
+
+    @Column(nullable = false)
+    private Boolean necesitaAcompanante; // Marcador de acompañante
+
     @Override
     public String toString() {
         return "Turno{" +

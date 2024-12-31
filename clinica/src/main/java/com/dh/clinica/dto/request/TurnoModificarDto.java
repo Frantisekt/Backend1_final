@@ -15,4 +15,6 @@ public class TurnoModificarDto {
     private Integer odontologo_id;
     private String fecha;
     private String hora;
+    private String nota;
+    private Boolean necesitaAcompanante;
 }
