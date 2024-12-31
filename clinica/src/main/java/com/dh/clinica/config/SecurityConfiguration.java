@@ -46,7 +46,7 @@ public class SecurityConfiguration {
                             auth.requestMatchers(HttpMethod.DELETE, "/odontologo/**").hasAuthority("ADMIN");
                             auth.requestMatchers("/paciente/**").hasAnyAuthority("ADMIN", "USER");
                             // endpoints que requieren autenticacion (al menos el rol de usuario)
-                            auth.requestMatchers("/turno/**").hasAnyAuthority("ADMIN", "USER");
+                            auth.requestMatchers("/turnos/**").hasAnyAuthority("ADMIN", "USER");
                             auth.anyRequest().authenticated();
 
                         })

@@ -53,10 +53,10 @@ public class TurnoController {
         return ResponseEntity.ok(turnoService.buscarTurnoOdontologo(matricula));
     }
 
-    @GetMapping("/eliminar/{id}")
-    public  ResponseEntity<?> eliminarTurno(@PathVariable Integer id){
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<?> eliminarTurno(@PathVariable Integer id){
         turnoService.eliminarTurno(id);
-        return ResponseEntity.ok("{\"mensaje\": \"El turno fue eliminadp\"}");
+        return ResponseEntity.ok("{\"mensaje\": \"El turno fue eliminado\"}");
     }
 
 
