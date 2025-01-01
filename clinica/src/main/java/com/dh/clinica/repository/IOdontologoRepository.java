@@ -12,8 +12,13 @@ import java.util.Optional;
 public interface IOdontologoRepository extends JpaRepository<Odontologo, Integer> {
     List<Odontologo> findByApellidoAndNombre(String apellido, String nombre);
 
-    @Query("Select p from Odontologo p where p.nombre LIKE %:parteNombre% ")
+    @Query("Select p from Odontologo p where p.nombre LIKE %:parteNombre%")
     List<Odontologo> findByNombreLike(String parteNombre);
+
     Optional<Odontologo> findByMatriculaLike(String parteMatricula);
+
+    @Query("Select p from Odontologo p where p.telefono LIKE %:parteTelefono% ")
+    List<Odontologo> findByTelefonoLike(String parteTelefono);
+
 
 }

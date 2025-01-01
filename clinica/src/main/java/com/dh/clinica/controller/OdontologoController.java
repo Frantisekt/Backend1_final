@@ -1,6 +1,7 @@
 package com.dh.clinica.controller;
 
 import com.dh.clinica.entity.Odontologo;
+import com.dh.clinica.entity.Paciente;
 import com.dh.clinica.service.impl.OdontologoService;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -64,6 +65,11 @@ public class OdontologoController {
     public ResponseEntity<Optional<Odontologo>> buscarLikeMatricula(@PathVariable String matricula) {
         Optional<Odontologo> odontologoEncontrado = odontologoService.buscarLikeMatricula(matricula);
         return ResponseEntity.ok(odontologoService.buscarLikeMatricula(matricula));
+    }
+
+    @GetMapping("/buscarTelefono/{telefono}")
+    public ResponseEntity<List<Odontologo>> buscarTelefonoLike(@PathVariable String telefono){
+        return ResponseEntity.ok(odontologoService.buscarLikeTelefono(telefono));
     }
 
 }

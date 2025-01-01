@@ -1,5 +1,6 @@
 package com.dh.clinica.service.impl;
 
+import com.dh.clinica.entity.Odontologo;
 import com.dh.clinica.entity.Paciente;
 import com.dh.clinica.exception.ResourceNotFoundException;
 import com.dh.clinica.repository.IPacienteRepository;
@@ -111,6 +112,18 @@ public class PacienteService implements IPacienteService {
         }else{
             logger.info("El paciente no fue encontrado. Dni: " + dni   + " Not found");
             throw new ResourceNotFoundException("El paciente no fue encontrado. Dni: " + dni   + " Not found");
+        }
+    }
+
+    @Override
+    public List<Paciente> buscarLikeTelefono(String telefono) {
+        List<Paciente> pacientes = pacienteRepository.findByTelefonoLike(telefono);
+        if(pacientes.isEmpty()){
+            logger.info("No se encontraron pacientes.");
+            throw new ResourceNotFoundException("No se encontraron pacientes.");
+        }else{
+            logger.info("Numero de pacientes encontrados: " + pacientes.size());
+            return pacientes;
         }
     }
 

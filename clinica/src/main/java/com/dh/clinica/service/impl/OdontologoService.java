@@ -111,4 +111,16 @@ public class OdontologoService implements IOdontologoService {
             throw new ResourceNotFoundException("El odontologo no fue encontrado. Matricula: " + matricula   + " Not found");
         }
     }
+
+    @Override
+    public List<Odontologo> buscarLikeTelefono(String telefono) {
+        List<Odontologo> odontologos = odontologoRepository.findByTelefonoLike(telefono);
+        if(odontologos.isEmpty()){
+            logger.info("No se encontraron odontologos.");
+            throw new ResourceNotFoundException("No se encontraron odontologos.");
+        }else{
+            logger.info("Numero de odontologos encontrados: " + odontologos.size());
+            return odontologos;
+        }
+    }
 }

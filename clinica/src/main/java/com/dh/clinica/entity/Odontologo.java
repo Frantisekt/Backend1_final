@@ -33,6 +33,9 @@ public class Odontologo {
     private String apellido;
     @NotBlank
     private String email;
+    @NotNull
+    @Pattern(regexp = "^[0-9]+$", message = "El campo debe contener solo números.")
+    private String telefono;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Especialidad especialidad;
@@ -51,6 +54,7 @@ public class Odontologo {
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", email='" + email + '\'' +
+                ", telefono'" + telefono + '\'' +
                 ", especialidad" + especialidad + '\'' +
                 '}';
     }

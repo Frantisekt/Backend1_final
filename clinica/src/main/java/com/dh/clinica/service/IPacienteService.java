@@ -1,5 +1,6 @@
 package com.dh.clinica.service;
 
+import com.dh.clinica.entity.Odontologo;
 import com.dh.clinica.entity.Paciente;
 import org.springframework.data.jpa.repository.Query;
 
@@ -22,6 +23,9 @@ public interface IPacienteService {
     List<Paciente> buscarLikeNombre(String nombre);
 
     Optional<Paciente> buscarLikeDni(String dni);
+
+    @Query("SELECT p FROM Paciente p WHERE p.telefono LIKE %:telefono%")
+    List<Paciente> buscarLikeTelefono(String telefono);
 
     // select * from pacientes where nombre like CONCAT('%',variable,'%');
 }

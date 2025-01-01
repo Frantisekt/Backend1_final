@@ -25,4 +25,7 @@ public interface IOdontologoService {
     List<Odontologo> buscarLikeNombre(String nombre);
 
     Optional<Odontologo> buscarLikeMatricula(String matricula);
+
+    @Query("Select p from Odontologo p where p.telefono LIKE %:telefono%")
+    List<Odontologo> buscarLikeTelefono(String telefono);
 }

@@ -33,8 +33,11 @@ public class Paciente {
     @Size(min=7, max=15)
     private String dni;
     @NotNull
-    @Email(message = "Email must be a valid email")
+    @Email(message = "Email debe ser un email valido.")
     private String email;
+    @NotNull
+    @Pattern(regexp = "^[0-9]+$", message = "El telefono debe contener solo números.")
+    private String telefono;
     @NotNull
     private LocalDate fechaIngreso;
 
@@ -56,6 +59,7 @@ public class Paciente {
                 ", nombre='" + nombre + '\'' +
                 ", dni='" + dni + '\'' +
                 ", email'" + email + '\'' +
+                ", telefono'" + telefono + '\'' +
                 ", fechaIngreso=" + fechaIngreso +
                 ", domicilio=" + domicilio +
                 '}';

@@ -1,5 +1,6 @@
 package com.dh.clinica.repository;
 
+import com.dh.clinica.entity.Odontologo;
 import com.dh.clinica.entity.Paciente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,9 @@ public interface IPacienteRepository extends JpaRepository<Paciente, Integer> {
 
 
     Optional<Paciente> findByDniLike(String dni);
+
+    @Query("Select p from Paciente p where p.telefono LIKE %:parteTelefono% ")
+    List<Paciente> findByTelefonoLike(String parteTelefono);
 
 
 }
