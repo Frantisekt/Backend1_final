@@ -2,6 +2,7 @@ package com.dh.clinica.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -50,6 +51,14 @@ public class Paciente {
     @JsonManagedReference(value = "paciente-turno")
     //@JsonIgnore
     private Set<Turno> turnoSet;
+
+    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "paciente-historial")
+    private HistorialClinico historialClinico;
+
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.REMOVE)
+    @JsonManagedReference(value = "paciente-consulta")
+    private Set<Consulta> consultas;
 
     @Override
     public String toString() {

@@ -22,6 +22,4 @@ public interface IPacienteRepository extends JpaRepository<Paciente, Integer> {
 
     @Query("Select p from Paciente p where p.telefono LIKE %:parteTelefono% ")
     List<Paciente> findByTelefonoLike(String parteTelefono);
-
-
 }
